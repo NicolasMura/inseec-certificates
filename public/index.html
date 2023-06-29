@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Shift certificates</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="assets/certificate.ico" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+  <body>
+    <div id="progress-bar" class="progress" style="visibility: hidden;">
+      <div class="determinate"></div>
+    </div>
+
+    <div class="container">
+      <h1>Generate SHIFT certificates</h1>
+      <p>(<b>.csv</b> format)</p>
+      <form id="uploadForm">
+        <div class="file-field input-field">
+          <div class="btn waves-effect waves-light">
+            <i class="material-icons left">upload</i>
+            <span>Choose a file</span>
+            <input id="students" name="students" type="file" accept=".csv">
+          </div>
+          <div class="file-path-wrapper">
+            <input id="helper" class="file-path validate" type="text">
+          </div>
+        </div>
+        <button id="generate-btn" class="btn waves-effect waves-light" type="submit" name="action" onclick="uploadFile(event)" style="margin-top: 10px;">
+          Generate certificates
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+
+      <p>Warning: certificates generation can take a few minutes...</p>
+    </div>
+
+    <script>
+      const uploadFile = async (e) => {
+        e.preventDefault();
+
+        const progressBar = document.getElementById('progress-bar');
+        const fileUploadBtn = document.getElementById('students');
+        const fileUploadHelper = document.getElementById('helper');
+        const generateCertificatesBtn = document.getElementById('generate-btn');
+        const form = document.getElementById('uploadForm');
+        const formData = new FormData(form);
+
+        progressBar.style.visibility = 'visible';
+        progressBar.children[0].className = 'indeterminate';
+        generateCertificatesBtn.setAttribute('disabled', true);
+        fileUploadBtn.setAttribute('disabled', true);
+
+        await fetch('generate-certificates', {
+          method: 'POST',
+          body: formData,
+        })
+          .then((res) => {
+            if ([400, 500].includes(res.status)) {
+              console.log(res);
+              M.toast({ html: 'Error: ' + res.statusText });
+              throw new Error(res.statusText);
+            }
+            console.log('The file has been uploaded successfully');
+            console.log('Response: ', res);
+            M.toast({ html: 'Certificates generated!' });
+          })
+          .catch(err => {
+            console.error('error upload document: ', err);
+          })
+          .finally(() => {
+            console.log('All done!');
+            progressBar.style.visibility = 'hidden';
+            generateCertificatesBtn.removeAttribute('disabled');
+            fileUploadBtn.removeAttribute('disabled');
+            fileUploadBtn.value = '';
+            fileUploadHelper.value = '';
+          });
+      }
+    </script>
+
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+  </body>
+</html>
