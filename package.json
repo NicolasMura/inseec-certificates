@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node --max-old-space-size=8192 dist/src/index.js",
-    "start-inspect": "node --inspect --max-old-space-size=8192 dist/src/index.js",
+    "start-inspect": "node --inspect dist/src/index.js",
     "dev": "ts-node-dev --watch .env, src src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",

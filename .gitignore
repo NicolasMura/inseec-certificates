@@ -55,7 +55,8 @@ ehthumbs.db
 Thumbs.db
 
 # Input
-templates
+data
+templates/*.pdf
 
 # Output
 certificates

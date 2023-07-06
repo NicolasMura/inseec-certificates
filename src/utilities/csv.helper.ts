@@ -23,4 +23,16 @@ export const readCSVFile = (pathLike: string | Buffer): Promise<Student[]> => {
   })
 }
 
+export const createCSVFromJson = (json: Student[]): string => {
+  // specify how you we to handle null values here
+  const replacer = (key: string, value: string) => value === null ? '' : value;
+  const header = Object.keys(json[0]) as (keyof Student)[];
+  const csv = [
+    header.join(';'), // header row first
+    ...json.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(';'))
+  ].join('\r\n').replace(/"/g, '');
+
+  return csv;
+}
+
 export default readCSVFile;
