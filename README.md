@@ -6,12 +6,12 @@
 
 # SHIFT certificates generation
 
-@TODO description here
+Tool to generate students SHIFT certificates from templates.
 
 - [SHIFT certificates generation](#shift-certificates-generation)
   - [Requirements](#requirements)
   - [How to generate certificates](#how-to-generate-certificates)
-  - [Usage:](#usage)
+  - [Contribute](#contribute)
 
 ## Requirements
 
@@ -25,8 +25,8 @@ To contribute to this project and run it locally, you will need:
 Clone the project & install dependencies:
 
 ```shell
-  git clone <this-project>
-  cd <this-project>
+  git clone https://github.com/NicolasMura/inseec-certificates.git
+  cd inseec-certificates
   npm i
 ```
 
@@ -44,13 +44,13 @@ Build and run the server locally:
   npm run start
 ```
 
-Open your favorite browser at `http://localhost:3000`, upload your student CSV file and click the `Generate certificates` button:
+Open your favorite browser at `http://localhost:3000`, upload your student CSV file and click the `GENERATE CERTIFICATES` button:
 
 @TODO un .gif pour illustrer
 
 Wait for a few minutes and your certificates should now live in the `certificates` folder.
 
-## Usage:
+## Contribute
 
 You should copy `.env.sample` to `.env` and then:
 
