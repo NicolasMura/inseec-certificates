@@ -25,7 +25,7 @@ export const readCSVFile = (pathLike: string | Buffer): Promise<Student[]> => {
 
 export const createCSVFromJson = (json: Student[]): string => {
   // specify how you we to handle null values here
-  const replacer = (key: string, value: string) => value === null ? '' : value;
+  const replacer = (key: string, value: string) => value ?? '';
   const header = Object.keys(json[0]) as (keyof Student)[];
   const csv = [
     header.join(';'), // header row first

@@ -6,10 +6,10 @@ export enum TrainingCourse {
 }
 
 export enum CertificateTemplate {
-  SHIFT_DM_ECE = 'templates/cerfa_13824-04.pdf',
-  SHIFT_BUSINESS_INSEEC = 'templates/cerfa_13824-04.pdf',
-  SHIFT_DT_SDP = 'templates/cerfa_13824-04.pdf',
-  SHIFT_GEOPOL_HEIP = 'templates/cerfa_13824-04.pdf',
+  SHIFT_DM_ECE = 'templates/cerfa_13824-04-1.pdf',
+  SHIFT_BUSINESS_INSEEC = 'templates/cerfa_13824-04-2.pdf',
+  SHIFT_DT_SDP = 'templates/cerfa_13824-04-3.pdf',
+  SHIFT_GEOPOL_HEIP = 'templates/cerfa_13824-04-4.pdf',
 }
 
 export interface Student {

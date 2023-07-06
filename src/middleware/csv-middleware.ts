@@ -11,7 +11,7 @@ const CSVMiddleware = (req: Request, res: Response, next: NextFunction) => {
     console.log(`Folder '${destPath}' created successfully`);
   }
 
-  const csvPathLike = req.file?.path || req.file?.buffer;
+  const csvPathLike = req.file?.path ?? req.file?.buffer;
   if (csvPathLike) {
     readCSVFile(csvPathLike)
       .then((students: Student[]) => {
@@ -34,22 +34,9 @@ export default CSVMiddleware;
 
 const getFilteredStudents = (students: Student[]): Student[] => {
   // Students must have following infos: firstName / lastName / valid email / known trainingCourse
-  const certifiedStudents = students
-    .sort(student => {
-      if (student.lastName < student.lastName) {
-        return -1;
-      }
-      if (student.lastName > student.lastName) {
-        return 1;
-      }
-      return 0;
-    })
-    .filter(student =>
-      student.firstName &&
-      student.lastName &&
-      validateEmail(student.email) &&
-      Object.values(TrainingCourse).includes(student.trainingCourse)
-    );
+  const certifiedStudents = [...students]
+    .sort(sortStudentsByName)
+    .filter(validateStudent);
   console.log(`Warning - Filtering rules: only students with a first name, a last name, a valid email and a valid \
 training course ("Track certifié - Parcours SHIFTS" column") are processed`);
   console.log(`Founded ${students.length} lines`);
@@ -61,12 +48,7 @@ training course ("Track certifié - Parcours SHIFTS" column") are processed`);
   if (students.length !== certifiedStudents.length) {
     console.log(`Warning - ${students.length - certifiedStudents.length} lines have been ignored (see ${invalidFilePath} file)`);
 
-    const notProcessedStudents = students.filter(student =>
-      !student.firstName ||
-      !student.lastName ||
-      !validateEmail(student.email) ||
-      !Object.values(TrainingCourse).includes(student.trainingCourse)
-    );
+    const notProcessedStudents = students.filter(invalidateStudent);
 
     if (!existsSync(notProcessedFolder)) {
       mkdirSync(notProcessedFolder);
@@ -109,8 +91,33 @@ training course ("Track certifié - Parcours SHIFTS" column") are processed`);
   return uniqueCertifiedStudents;
 }
 
-const validateEmail = (email: string) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+const sortStudentsByName = (student1: Student, student2: Student): number => {
+  if (student1.lastName < student2.lastName) {
+    return -1;
+  }
+  if (student1.lastName > student2.lastName) {
+    return 1;
+  }
+  return 0;
+};
+
+const validateStudent = (student: Student): boolean => {
+  return (
+    !!student.firstName &&
+    !!student.lastName &&
+    validateEmail(student.email) &&
+    Object.values(TrainingCourse).includes(student.trainingCourse)
   );
+}
+
+const invalidateStudent = (student: Student): boolean => {
+  return !validateStudent(student);
+};
+
+const validateEmail = (email: string): boolean => {
+  return RegExp(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  ).exec(email)
+    ? true
+    : false;
 };
