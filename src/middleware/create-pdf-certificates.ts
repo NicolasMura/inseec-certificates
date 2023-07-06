@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { copyFileSync, existsSync, mkdirSync } from 'fs';
+import colors from 'colors';
 import { populatePdf } from '../utilities/pdf.helper';
 import { CertificateTemplate, Student, TrainingCourse } from '../models/student.model';
 
@@ -32,7 +33,7 @@ export const createPDFCertificatesMiddleware = async (req: Request, res: Respons
     const promises: Promise<unknown>[] = [];
 
     for (const student of studentsChunks[i]) {
-      let certificateTemplate;
+      let certificateTemplate = '';
       let certificateDestPath = `${destPath}/`;
       const studentName = `${student.firstName} ${student.lastName}`;
 
@@ -58,11 +59,15 @@ export const createPDFCertificatesMiddleware = async (req: Request, res: Respons
           break;
 
         default:
+          console.error(colors.red('Invalid training course for student ' + student.email));
           break;
       }
 
       certificateDestPath += `/${student.email}.pdf`;
 
+      if (!existsSync(certificateTemplate)) {
+        console.error(colors.red(`Error - Missing template "${certificateTemplate}"`));
+      }
       copyFileSync(certificateTemplate as CertificateTemplate, certificateDestPath);
       const promise = populatePdf(studentName, certificateDestPath);
       promises.push(promise);
