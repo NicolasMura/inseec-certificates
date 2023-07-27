@@ -1,6 +1,3 @@
-# data sources
-data
-
 # build directory
 dist
 
@@ -54,9 +51,12 @@ pids
 ehthumbs.db
 Thumbs.db
 
-# Input
-data
-templates/*.pdf
+# Inputs
+
+data/*
+!data/.gitkeep
+templates/*
+!templates/.gitkeep
 
 # Output
 certificates

@@ -98,6 +98,7 @@ const sortStudentsByName = (student1: Student, student2: Student): number => {
   if (student1.lastName > student2.lastName) {
     return 1;
   }
+
   return 0;
 };
 

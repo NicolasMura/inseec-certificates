@@ -6,10 +6,10 @@ export enum TrainingCourse {
 }
 
 export enum CertificateTemplate {
-  SHIFT_DM_ECE = 'templates/cerfa_13824-04-1.pdf',
-  SHIFT_BUSINESS_INSEEC = 'templates/cerfa_13824-04-2.pdf',
-  SHIFT_DT_SDP = 'templates/cerfa_13824-04-3.pdf',
-  SHIFT_GEOPOL_HEIP = 'templates/cerfa_13824-04-4.pdf',
+  SHIFT_DM_ECE = 'templates/Certificats shifts ECE formulaire.pdf',
+  SHIFT_BUSINESS_INSEEC = 'templates/Certificats shifts INSEEC formulaire.pdf',
+  SHIFT_DT_SDP = 'templates/Certificats shifts SDPub Formulaire.pdf',
+  SHIFT_GEOPOL_HEIP = 'templates/Certificats shifts HEIP formulaire.pdf',
 }
 
 export interface Student {
