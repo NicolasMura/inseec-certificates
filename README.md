@@ -12,8 +12,8 @@ Tool to generate students SHIFT certificates from PDF templates and student CSV 
   - [Requirements](#requirements)
   - [How to generate certificates](#how-to-generate-certificates)
     - [Local method (on your computer)](#local-method-on-your-computer)
-    - [Method 1: use the app](#method-1-use-the-app)
-    - [Method 2: use the CLI](#method-2-use-the-cli)
+      - [Method 1: use the app](#method-1-use-the-app)
+      - [Method 2: use the CLI](#method-2-use-the-cli)
     - [Online method (remote server)](#online-method-remote-server)
   - [Contribute](#contribute)
 
@@ -50,7 +50,7 @@ Build and run the server locally:
   npm run start
 ```
 
-### Method 1: use the app
+#### Method 1: use the app
 
 Open your favorite browser at `http://localhost:3000`, upload your student CSV file and click the `GENERATE CERTIFICATES` button:
 
@@ -58,7 +58,7 @@ Open your favorite browser at `http://localhost:3000`, upload your student CSV f
 
 Wait for a few seconds and your certificates should now live in the `certificates` folder.
 
-### Method 2: use the CLI
+#### Method 2: use the CLI
 
 Copy your student CSV file into `data` folder to match `generate-certificates` script in `package.json` file:
 
